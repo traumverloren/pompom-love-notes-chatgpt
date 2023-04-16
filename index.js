@@ -31,16 +31,20 @@ async function getCompletionFromOpenAI() {
 
 // getCompletionFromOpenAI()
 
-const displayDevice = Rpi7In5V2
-displayDevice.connect()
+async function getDisplay() {
+  return  new Rpi7In5V2()
+}
 
 async function refreshDisplay() {
+  const displayDevice = getDisplay()
+  displayDevice.connect()
+
   const browserPage = await getPageRpi(
     displayDevice.width,
     displayDevice.height
   )
 
-  const url = 'http://localhost:80'
+  const url = 'http://localhost:3000'
   const imgOfUrl = await browserPage.screenshot(url, {
     delay: 1000,
   })
@@ -51,8 +55,6 @@ async function refreshDisplay() {
   displayDevice.sleep()
   console.log('Putting display into low power mode')
 }
-
-refreshDisplay()
 
 // Local server
 const __filename = fileURLToPath(import.meta.url)
@@ -68,3 +70,5 @@ app.use(express.static(dir))
 app.listen(3000, function () {
   console.log('Listening on http://localhost:3000/')
 })
+
+refreshDisplay()

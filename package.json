@@ -11,6 +11,7 @@
   "type": "module",
   "dependencies": {
     "@epaperjs/core": "^2.2.2",
+    "@epaperjs/rpi-7in5-v2": "^2.0.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "openai": "^3.2.1"
