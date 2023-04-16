@@ -1,6 +1,9 @@
 import { Configuration, OpenAIApi } from 'openai'
-import { getPageRpi, BrowserPage } from '@epaperjs/core'
+import { getPageRpi } from '@epaperjs/core'
 import { Rpi7In5V2 } from '@epaperjs/rpi-7in5-v2'
+import express from 'express'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -50,3 +53,18 @@ async function refreshDisplay() {
 }
 
 refreshDisplay()
+
+// Local server
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const dir = path.join(__dirname, '/ui')
+const host = 'localhost'
+const port = 3000
+
+const app = express()
+
+app.use(express.static(dir))
+
+app.listen(3000, function () {
+  console.log('Listening on http://localhost:3000/')
+})
