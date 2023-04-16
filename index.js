@@ -4,6 +4,7 @@ import { Rpi7In5V2 } from '@epaperjs/rpi-7in5-v2'
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import ejs from 'ejs'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -15,10 +16,14 @@ async function getCompletionFromOpenAI() {
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       messages: [
-        { role: 'user', content: 'Answer me with a ASCII art of a dog' },
+        {
+          role: 'user',
+          content: 'Answer me with uwu cute recognizable ASCII art',
+        },
       ],
     })
     console.log(completion.data.choices[0].message.content)
+    return completion.data.choices[0].message.content
   } catch (error) {
     if (error.response) {
       console.log(error.response.status)
@@ -29,10 +34,8 @@ async function getCompletionFromOpenAI() {
   }
 }
 
-// getCompletionFromOpenAI()
-
 async function getDisplay() {
-  return  new Rpi7In5V2()
+  return new Rpi7In5V2()
 }
 
 async function refreshDisplay() {
@@ -60,15 +63,50 @@ async function refreshDisplay() {
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const dir = path.join(__dirname, '/ui')
-const host = 'localhost'
 const port = 3000
 
 const app = express()
 
-app.use(express.static(dir))
+// set the view engine to ejs
+app.set('view engine', 'ejs')
 
-app.listen(3000, function () {
-  console.log('Listening on http://localhost:3000/')
+let ejsOptions = {
+  async: true,
+}
+
+// The engine is using a callback method for async rendering
+app.engine('ejs', async (path, data, cb) => {
+  try {
+    let html = await ejs.renderFile(path, data, ejsOptions)
+    cb(null, html)
+  } catch (e) {
+    cb(e, '')
+  }
 })
 
-refreshDisplay()
+// index page
+app.route('/').get(async (req, res) => {
+  return (
+    await res.render(path.join(dir, 'index.ejs'), {
+      chatbot_love_msg: await getCompletionFromOpenAI(),
+    }),
+    (err, html) => standardResponse(err, html, res)
+  )
+})
+
+const standardResponse = (err, html, res) => {
+  // If error, return 500 page
+  if (err) {
+    console.log(err)
+    // Passing null to the error response to avoid infinite loops XP
+    return res.status(500)
+    // Otherwise return the html
+  } else {
+    refreshDisplay()
+    return res.status(200).send(html)
+  }
+}
+
+app.listen(port, function () {
+  console.log('Listening on http://localhost:3000/')
+})
