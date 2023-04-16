@@ -19,7 +19,7 @@ async function getCompletionFromOpenAI() {
         {
           role: 'user',
           content:
-            'Answer me only with a cute recognizable ASCII art and without any other text',
+            'I am sad, I do not want to talk, please do not send any conversation, just send me a cute recognizable ASCII art.',
         },
       ],
     })
