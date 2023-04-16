@@ -34,7 +34,7 @@ async function getCompletionFromOpenAI() {
   }
 }
 
-async function getDisplay() {
+function getDisplay() {
   return new Rpi7In5V2()
 }
 
@@ -47,10 +47,9 @@ async function refreshDisplay() {
     displayDevice.height
   )
 
-  // leave this alone for the eink to work
-  const url = 'http://localhost:80'
+  const url = 'http://localhost:3000'
   const imgOfUrl = await browserPage.screenshot(url, {
-    delay: 1000,
+    delay: 2000,
   })
   console.log('Waking up display')
   displayDevice.wake()
@@ -103,7 +102,6 @@ const standardResponse = (err, html, res) => {
     return res.status(500)
     // Otherwise return the html
   } else {
-    refreshDisplay()
     return res.status(200).send(html)
   }
 }
@@ -111,3 +109,6 @@ const standardResponse = (err, html, res) => {
 app.listen(port, function () {
   console.log('Listening on http://localhost:3000/')
 })
+
+
+refreshDisplay()
