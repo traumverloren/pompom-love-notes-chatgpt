@@ -18,7 +18,8 @@ async function getCompletionFromOpenAI() {
       messages: [
         {
           role: 'user',
-          content: 'Answer me with uwu cute recognizable ASCII art',
+          content:
+            'Answer me only with a cute recognizable ASCII art and without any other text',
         },
       ],
     })
@@ -109,6 +110,5 @@ const standardResponse = (err, html, res) => {
 app.listen(port, function () {
   console.log('Listening on http://localhost:3000/')
 })
-
 
 refreshDisplay()
