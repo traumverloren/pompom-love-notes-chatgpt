@@ -47,7 +47,8 @@ async function refreshDisplay() {
     displayDevice.height
   )
 
-  const url = 'http://localhost:3000'
+  // leave this alone for the eink to work
+  const url = 'http://localhost:80'
   const imgOfUrl = await browserPage.screenshot(url, {
     delay: 1000,
   })
