@@ -1,4 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai'
+import { getPageRpi, BrowserPage } from '@epaperjs/core'
+import { Rpi7In5V2 } from '@epaperjs/rpi-7in5-v2'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -24,4 +26,27 @@ async function getCompletionFromOpenAI() {
   }
 }
 
-getCompletionFromOpenAI()
+// getCompletionFromOpenAI()
+
+const displayDevice = Rpi7In5V2
+displayDevice.connect()
+
+async function refreshDisplay() {
+  const browserPage = await getPageRpi(
+    displayDevice.width,
+    displayDevice.height
+  )
+
+  const url = 'http://localhost:80'
+  const imgOfUrl = await browserPage.screenshot(url, {
+    delay: 1000,
+  })
+  console.log('Waking up display')
+  displayDevice.wake()
+  console.log(`Displaying ${url}`)
+  await displayDevice.displayPng(imgOfUrl)
+  displayDevice.sleep()
+  console.log('Putting display into low power mode')
+}
+
+refreshDisplay()
