@@ -1,12 +1,20 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { getPageRpi } from '@epaperjs/core'
 import { Rpi7In5V2 } from '@epaperjs/rpi-7in5-v2'
+import * as mqtt from 'mqtt'
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import ejs from 'ejs'
 import dotenv from 'dotenv'
 dotenv.config()
+
+const client = mqtt.connect(process.env.MQTT_HOST, {
+  username: process.env.MQTT_USER,
+  password: process.env.MQTT_PASSWORD,
+  clientId: process.env.CLIENT_ID,
+  clean: false,
+  reconnectPeriod: 1,
+})
 
 const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY })
 const openai = new OpenAIApi(configuration)
@@ -19,7 +27,7 @@ async function getCompletionFromOpenAI() {
         {
           role: 'user',
           content:
-            'I am sad, I do not want to talk, please do not send any conversation, just send me a cute recognizable ASCII art.',
+            'I am sad, I do not want to talk, please do not send any conversation, just send me a unique ASCII artwork with 5 words maximum.',
         },
       ],
     })
@@ -60,6 +68,29 @@ async function refreshDisplay() {
   console.log('Putting display into low power mode')
 }
 
+// MQTT pub/sub
+// prints a received message
+client.on('message', function (topic, message) {
+  console.log(String.fromCharCode.apply(null, message)) // need to convert the byte array to string
+  if (topic === 'messages') {
+    refreshDisplay()
+  }
+})
+
+// reassurance that the connection worked
+client.on('connect', () => {
+  console.log('Connected!')
+})
+
+// prints an error message
+client.on('error', (error) => {
+  console.log('Error:', error)
+})
+
+// subscribe and publish to the same topic
+client.subscribe('messages')
+client.publish('messages', 'Hello, this message was received!')
+
 // Local server
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -69,46 +100,15 @@ const port = 3000
 const app = express()
 
 // set the view engine to ejs
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs', { async: true })
 
-let ejsOptions = {
-  async: true,
-}
-
-// The engine is using a callback method for async rendering
-app.engine('ejs', async (path, data, cb) => {
-  try {
-    let html = await ejs.renderFile(path, data, ejsOptions)
-    cb(null, html)
-  } catch (e) {
-    cb(e, '')
-  }
+app.get('/', async (req, res) => {
+  res.render(path.join(dir, 'index'), {
+    chatbot_love_msg: await getCompletionFromOpenAI(),
+  })
+  console.log('Rendering index')
 })
-
-// index page
-app.route('/').get(async (req, res) => {
-  return (
-    await res.render(path.join(dir, 'index.ejs'), {
-      chatbot_love_msg: await getCompletionFromOpenAI(),
-    }),
-    (err, html) => standardResponse(err, html, res)
-  )
-})
-
-const standardResponse = (err, html, res) => {
-  // If error, return 500 page
-  if (err) {
-    console.log(err)
-    // Passing null to the error response to avoid infinite loops XP
-    return res.status(500)
-    // Otherwise return the html
-  } else {
-    return res.status(200).send(html)
-  }
-}
 
 app.listen(port, function () {
   console.log('Listening on http://localhost:3000/')
 })
-
-refreshDisplay()
