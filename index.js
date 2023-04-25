@@ -16,8 +16,15 @@ const client = mqtt.connect(process.env.MQTT_HOST, {
   reconnectPeriod: 1,
 })
 
+let msg = ''
+
 const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY })
 const openai = new OpenAIApi(configuration)
+
+async function handleTouch() {
+  const generatedArt = await getCompletionFromOpenAI()
+  client.publish('art', generatedArt)
+}
 
 async function getCompletionFromOpenAI() {
   try {
@@ -61,6 +68,7 @@ async function refreshDisplay() {
     delay: 2000,
   })
   console.log('Waking up display')
+  console.log("msg: ", msg)
   displayDevice.wake()
   console.log(`Displaying ${url}`)
   await displayDevice.displayPng(imgOfUrl)
@@ -71,9 +79,12 @@ async function refreshDisplay() {
 // MQTT pub/sub
 // prints a received message
 client.on('message', function (topic, message) {
-  console.log(String.fromCharCode.apply(null, message)) // need to convert the byte array to string
-  if (topic === 'messages') {
-    refreshDisplay()
+  if (topic === 'art') {
+    console.log("New art!")
+    msg = String.fromCharCode.apply(null, message) // need to convert the byte array to string
+   refreshDisplay()
+  } else if (topic === 'steph-touch') {
+    handleTouch()
   }
 })
 
@@ -88,8 +99,9 @@ client.on('error', (error) => {
 })
 
 // subscribe and publish to the same topic
-client.subscribe('messages')
-client.publish('messages', 'Hello, this message was received!')
+client.subscribe('steph-touch')
+client.subscribe('art')
+client.publish('steph-touch')
 
 // Local server
 const __filename = fileURLToPath(import.meta.url)
@@ -104,7 +116,7 @@ app.set('view engine', 'ejs', { async: true })
 
 app.get('/', async (req, res) => {
   res.render(path.join(dir, 'index'), {
-    chatbot_love_msg: await getCompletionFromOpenAI(),
+    chatbot_love_msg: msg,
   })
   console.log('Rendering index')
 })
