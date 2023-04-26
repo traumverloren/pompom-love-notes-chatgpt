@@ -68,7 +68,7 @@ async function refreshDisplay() {
     delay: 2000,
   })
   console.log('Waking up display')
-  console.log("msg: ", msg)
+  console.log('msg: ', msg)
   displayDevice.wake()
   console.log(`Displaying ${url}`)
   await displayDevice.displayPng(imgOfUrl)
@@ -83,7 +83,7 @@ client.on('message', function (topic, payload) {
     console.log("New art!")
     msg = JSON.parse(payload.toString())
     refreshDisplay()
-  } else if (topic === 'steph-touch') {
+  } else if (topic === process.env.TOUCH_TOPIC) {
     handleTouch()
   }
 })
