@@ -29,12 +29,11 @@ async function handleTouch() {
 async function getCompletionFromOpenAI() {
   try {
     const completion = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4',
       messages: [
         {
           role: 'user',
-          content:
-            'I am sad, I do not want to talk, please do not send any conversation, just send me a unique ASCII artwork with 5 words maximum.',
+          content: process.env.OPENAI_CONTENT,
         },
       ],
     })
@@ -80,7 +79,7 @@ async function refreshDisplay() {
 // prints a received message
 client.on('message', function (topic, payload) {
   if (topic === 'art') {
-    console.log("New art!")
+    console.log('New art!')
     msg = JSON.parse(payload.toString())
     refreshDisplay()
   } else if (topic === process.env.TOUCH_TOPIC) {
