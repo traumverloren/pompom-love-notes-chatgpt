@@ -99,9 +99,9 @@ client.on('error', (error) => {
 })
 
 // subscribe and publish to the same topic
-client.subscribe('steph-touch')
+client.subscribe(process.env.TOUCH_TOPIC)
 client.subscribe('art')
-client.publish('steph-touch')
+client.publish(process.env.TOUCH_TOPIC)
 
 // Local server
 const __filename = fileURLToPath(import.meta.url)
