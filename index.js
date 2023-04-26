@@ -29,7 +29,7 @@ async function handleTouch() {
 async function getCompletionFromOpenAI() {
   try {
     const completion = await openai.createChatCompletion({
-      model: 'gpt-4',
+      model: 'gpt-3.5-turbo',
       messages: [
         {
           role: 'user',
