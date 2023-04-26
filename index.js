@@ -23,7 +23,7 @@ const openai = new OpenAIApi(configuration)
 
 async function handleTouch() {
   const generatedArt = await getCompletionFromOpenAI()
-  client.publish('art', generatedArt)
+  client.publish('art', JSON.stringify(generatedArt))
 }
 
 async function getCompletionFromOpenAI() {
@@ -78,11 +78,11 @@ async function refreshDisplay() {
 
 // MQTT pub/sub
 // prints a received message
-client.on('message', function (topic, message) {
+client.on('message', function (topic, payload) {
   if (topic === 'art') {
     console.log("New art!")
-    msg = String.fromCharCode.apply(null, message) // need to convert the byte array to string
-   refreshDisplay()
+    msg = JSON.parse(payload.toString())
+    refreshDisplay()
   } else if (topic === 'steph-touch') {
     handleTouch()
   }
