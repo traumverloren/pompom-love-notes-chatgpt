@@ -68,7 +68,7 @@ async function refreshDisplay() {
     delay: 2000,
   })
   console.log('Waking up display')
-  console.log("msg: ", msg)
+  console.log('msg: ', msg)
   displayDevice.wake()
   console.log(`Displaying ${url}`)
   await displayDevice.displayPng(imgOfUrl)
@@ -80,10 +80,10 @@ async function refreshDisplay() {
 // prints a received message
 client.on('message', function (topic, message) {
   if (topic === 'art') {
-    console.log("New art!")
+    console.log('New art!')
     msg = String.fromCharCode.apply(null, message) // need to convert the byte array to string
-   refreshDisplay()
-  } else if (topic === 'steph-touch') {
+    refreshDisplay()
+  } else if (topic === process.env.TOUCH_TOPIC) {
     handleTouch()
   }
 })
