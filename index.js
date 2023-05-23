@@ -22,6 +22,7 @@ const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY })
 const openai = new OpenAIApi(configuration)
 
 async function handleTouch() {
+  console.log('making api call to chatgpt')
   const generatedArt = await getCompletionFromOpenAI()
   client.publish('art', JSON.stringify(generatedArt))
 }
@@ -75,14 +76,16 @@ async function refreshDisplay() {
   console.log('Putting display into low power mode')
 }
 
-// MQTT pub/sub
+
 // prints a received message
 client.on('message', function (topic, payload) {
+  console.log(topic.toString(), payload.toString())
   if (topic === 'art') {
     console.log('New art!')
     msg = JSON.parse(payload.toString())
     refreshDisplay()
   } else if (topic === process.env.TOUCH_TOPIC) {
+    console.log("handleTouch")
     handleTouch()
   }
 })
@@ -97,10 +100,10 @@ client.on('error', (error) => {
   console.log('Error:', error)
 })
 
+// MQTT pub/sub
 // subscribe and publish to the same topic
-client.subscribe(process.env.TOUCH_TOPIC)
 client.subscribe('art')
-client.publish(process.env.TOUCH_TOPIC)
+client.subscribe(process.env.TOUCH_TOPIC)
 
 // Local server
 const __filename = fileURLToPath(import.meta.url)
