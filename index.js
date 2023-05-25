@@ -31,6 +31,7 @@ async function getCompletionFromOpenAI() {
   try {
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
+      temperature: 1.2,
       messages: [
         {
           role: 'user',
@@ -76,7 +77,6 @@ async function refreshDisplay() {
   console.log('Putting display into low power mode')
 }
 
-
 // prints a received message
 client.on('message', function (topic, payload) {
   console.log(topic.toString(), payload.toString())
@@ -85,7 +85,7 @@ client.on('message', function (topic, payload) {
     msg = JSON.parse(payload.toString())
     refreshDisplay()
   } else if (topic === process.env.TOUCH_TOPIC) {
-    console.log("handleTouch")
+    console.log('handleTouch')
     handleTouch()
   }
 })
