@@ -8,14 +8,13 @@
   <style>
     html,
     body {
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       margin: 0;
       padding: 0;
     }
 
     body {
-      height: 90%;
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
@@ -23,8 +22,13 @@
     }
 
     div {
+      display:flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: space-evenly;
+      height: 80vh;
+      width: 100%;
       white-space: pre-wrap;
-      width: 90%;
       font-size: 10vh;
       font-family: monospace;
       color: #000000;
@@ -34,8 +38,6 @@
 </head>
 
 <body>
-  <div id="fittext"><%= chatbot_love_msg %></div>
-  <script src="fitText.js"></script>
-  <script>fitText(document.getElementById('fittext'))</script>
+  <div><%= chatbot_love_msg %></div>
 </body>
 </html>
