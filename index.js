@@ -17,20 +17,25 @@ const client = mqtt.connect(process.env.MQTT_HOST, {
 })
 
 let msg = ''
+let hasRequest = false
 
 const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY })
 const openai = new OpenAIApi(configuration)
 
 async function handleTouch() {
+  if (hasRequest) return
+  hasRequest = true
   console.log('making api call to chatgpt')
   const generatedArt = await getCompletionFromOpenAI()
   client.publish('art', JSON.stringify(generatedArt))
+  hasRequest = false
 }
 
 async function getCompletionFromOpenAI() {
   try {
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
+      temperature: 1.2,
       messages: [
         {
           role: 'user',
