@@ -6,24 +6,29 @@ import ssl
 import socketpool
 import wifi
 import neopixel
+import microcontroller
 import adafruit_minimqtt.adafruit_minimqtt as MQTT
 from adafruit_minimqtt.adafruit_minimqtt import MMQTTException
 
 # Circuitpython 8.2.0-beta with touchalarm 🎉
 
-# Create a socket pool
-pool = socketpool.SocketPool(wifi.radio)
-
-# Create an alarm that will trigger if pin is touched.
-touch_alarm = alarm.touch.TouchAlarm(pin=board.A3)
-
 # Print out which alarm woke us up, if any.
 print(alarm.wake_alarm)
+
+# Create a socket pool
+pool = socketpool.SocketPool(wifi.radio)
 
 pixel = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.1)
 pixel.fill((0,255,255))
 
-def network_connect():
+def reset_on_error(delay, error):
+    print("Error:\n", str(error))
+    print("Resetting microcontroller in %d seconds" % delay)
+    time.sleep(5)
+    microcontroller.reset()
+
+def network_connect():   
+    print("Connecting WIFI")
     wifi.radio.connect(os.getenv('ssid'), os.getenv('wifi_pw'))
     print("My IP address is: ", wifi.radio.ipv4_address)
 
@@ -59,19 +64,25 @@ def mqtt_connect():
     print("Connecting to MQTT broker...")
     client.connect()
 
-print("Connecting WIFI")
-network_connect()
-mqtt_connect()
+try:
+    network_connect()
+    mqtt_connect()
+except Exception as e:
+    reset_on_error(5, e)
+    
+# Create an alarm that will trigger if pin is touched.
+touch_alarm = alarm.touch.TouchAlarm(pin=board.A3)
 
 # Send a new message
 if alarm.wake_alarm:
     client.publish(os.getenv("topic"), "hi")
     print("Sent!")
+    time.sleep(5)
+
 print("sleepytime...")
 client.disconnect()
 pixel.fill((0,0,0))
-time.sleep(2)
+time.sleep(5)
 
 # Exit the program, and then deep sleep until one of the alarms wakes us.
 alarm.exit_and_deep_sleep_until_alarms(touch_alarm)
-# Does not return, so we never get here.
