@@ -4,12 +4,12 @@ Ever wanted to spend days winding a ton of yarn to make a giant pom pom? What th
 
 Well, here ya go!
 
-![pompom-schematic](https://github.com/traumverloren/love-notes-chatgpt/assets/9959680/9f4ca221-563d-4344-aff8-2877d32b836e)
+![pompom-schematic](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/54f2644a-4587-4383-a6c1-d5ddd85d21a4)
 
 
 ## Materials:
 
-![IMG_4777 Medium](https://github.com/traumverloren/love-notes-chatgpt/assets/9959680/723a5ed4-aa3f-4fb9-b606-77b15172efc0)
+![IMG_4777 Medium](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/49c450ff-6dec-4c27-a1ee-25ea9bfa2da6)
 
 ### Pom pom:
 - Adafruit QT Py ESP32-S2
@@ -19,8 +19,9 @@ Well, here ya go!
 - LiPo battery (optional)
 - Adafruit QT PY ESP32-S@ BFF Lipo backpack (optional)
 
-![IMG_4919 Medium](https://github.com/traumverloren/love-notes-chatgpt/assets/9959680/6f5d40e1-0d83-4602-9501-7a3574ca7cb4)
-![6DD1C812-F45E-4DD4-B626-C3976EF0C59E Medium](https://github.com/traumverloren/love-notes-chatgpt/assets/9959680/54b0dd7a-0921-482b-a8f0-11ebcd0303df)
+![IMG_4919 Medium](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/d6eef7d7-6004-4885-8ff6-9816a1b0fb58)
+
+![6DD1C812-F45E-4DD4-B626-C3976EF0C59E Medium](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/1b86bfad-2b53-4ab0-bbe0-7851cbaea3ec)
 
 ### RPi + E-ink:
 - Waveshare 7.5 e-ink screen w/ Pi HAT
