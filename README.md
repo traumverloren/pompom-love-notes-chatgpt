@@ -1,9 +1,15 @@
-# love-notes-chatgpt + giant pompom:
+# Hug a giant pom pom to send esoteric messages to an e-ink display:
+
+Ever wanted to spend days winding a ton of yarn to make a giant pom pom? What that pom pom to be able to react to hugging to send cryptic ASCII art and a short esoteric message to multiple e-ink displays? Don't have the latest PI due to the shortages but have an old RPI lying around? 
+
+Well, here ya go!
 
 ![pompom-schematic](https://github.com/traumverloren/love-notes-chatgpt/assets/9959680/9f4ca221-563d-4344-aff8-2877d32b836e)
 
 
 ## Materials:
+
+![IMG_4777 Medium](https://github.com/traumverloren/love-notes-chatgpt/assets/9959680/723a5ed4-aa3f-4fb9-b606-77b15172efc0)
 
 ### Pom pom:
 - Adafruit QT Py ESP32-S2
@@ -13,9 +19,13 @@
 - LiPo battery (optional)
 - Adafruit QT PY ESP32-S@ BFF Lipo backpack (optional)
 
+![IMG_4919 Medium](https://github.com/traumverloren/love-notes-chatgpt/assets/9959680/6f5d40e1-0d83-4602-9501-7a3574ca7cb4)
+![6DD1C812-F45E-4DD4-B626-C3976EF0C59E Medium](https://github.com/traumverloren/love-notes-chatgpt/assets/9959680/54b0dd7a-0921-482b-a8f0-11ebcd0303df)
+
 ### RPi + E-ink:
 - Waveshare 7.5 e-ink screen w/ Pi HAT
 - Raspberry Pi (Works with multiple, but I used an old RPi 3)
+
 
 ## RPi Setup:
 - format sd card w/ [raspberry pi imager](https://www.raspberrypi.com/software/)
