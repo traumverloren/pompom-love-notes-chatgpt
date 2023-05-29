@@ -6,27 +6,33 @@ Well, here ya go!
 
 ![pompom-schematic](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/54f2644a-4587-4383-a6c1-d5ddd85d21a4)
 
-
 ## Materials:
-
-![IMG_4777 Medium](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/49c450ff-6dec-4c27-a1ee-25ea9bfa2da6)
-
 ### Pom pom:
-- Adafruit QT Py ESP32-S2
-- Conductive thread
+- [Adafruit QT Py ESP32-S2](https://www.adafruit.com/product/5325)
+- [Conductive thread](https://lightstitches.co.uk/product/conductive-thread-reel-250m/)
 - Ridiculous amount of yarn
 - Cardboard (to make a pom pom template)
-- LiPo battery (optional)
-- Adafruit QT PY ESP32-S@ BFF Lipo backpack (optional)
+- 400mAh LiPo battery (optional)
+- [Adafruit QT PY ESP32-S2 BFF](https://www.adafruit.com/product/5397) Lipo backpack (optional)
 
-![IMG_4919 Medium](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/d6eef7d7-6004-4885-8ff6-9816a1b0fb58)
+  
+#### Create the giant pom pom (this took ~20 x 50g bundles of yarn):
+![pompom-small](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/3c4b65bc-e520-408c-bcce-1293b7d5b84d)
 
-![6DD1C812-F45E-4DD4-B626-C3976EF0C59E Medium](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/1b86bfad-2b53-4ab0-bbe0-7851cbaea3ec)
+
+#### Make sure to put in a small container to hold the microcontroller (& battery inside):
+![pompominside Medium](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/e2863756-cbdd-4417-a29e-46f6e284af43)
+
 
 ### RPi + E-ink:
 - Waveshare 7.5 e-ink screen w/ Pi HAT
 - Raspberry Pi (Works with multiple, but I used an old RPi 3)
+- Picture frame (there's one that works from ikea or this one from [modulor](https://www.modulor.de/objektrahmen-holz-moritz-p-36-x-14-cm-schwefelgelb-ral-1016.html))
 
+#### Mount e-ink display & pi into a picture frame:
+![IMG_4919 Medium](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/d6eef7d7-6004-4885-8ff6-9816a1b0fb58)
+
+![6DD1C812-F45E-4DD4-B626-C3976EF0C59E Medium](https://github.com/traumverloren/pompom-love-notes-chatgpt/assets/9959680/1b86bfad-2b53-4ab0-bbe0-7851cbaea3ec)
 
 ## RPi Setup:
 - format sd card w/ [raspberry pi imager](https://www.raspberrypi.com/software/)
