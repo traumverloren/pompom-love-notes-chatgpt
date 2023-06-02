@@ -64,6 +64,12 @@ async function getCompletionFromOpenAI() {
 }
 
 async function tootArt(msg) {
+  // setup mastodon
+  const masto = await login({
+    url: process.env.URL,
+    accessToken: process.env.TOKEN,
+  })
+
   await masto.v1.statuses.create({
     status: msg,
     visibility: 'public',
