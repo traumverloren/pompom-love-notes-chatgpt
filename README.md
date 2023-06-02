@@ -1,4 +1,8 @@
-# Hug a giant pom pom to send esoteric messages to an e-ink display:
+# Hug a giant pom pom to send esoteric messages to an e-ink display
+
+See what esoteric art & messages it displays on the mastodon bot: 
+https://mastodon.social/@giantpompom!
+
 
 Ever wanted to spend days winding a ton of yarn to make a giant pom pom? What that pom pom to be able to react to hugging to send cryptic ASCII art and a short esoteric message to multiple e-ink displays? Don't have the latest PI due to the shortages but have an old RPI lying around? 
 
