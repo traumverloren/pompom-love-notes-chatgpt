@@ -2,3 +2,4 @@
 node_modules
 settings.toml
 secrets.py
+package-lock.json

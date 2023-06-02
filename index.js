@@ -5,8 +5,16 @@ import * as mqtt from 'mqtt'
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { login } from 'masto'
 import dotenv from 'dotenv'
 dotenv.config()
+
+// setup mastodon
+const masto = async () =>
+  await login({
+    url: process.env.URL,
+    accessToken: process.env.TOKEN,
+  })
 
 const client = mqtt.connect(process.env.MQTT_HOST, {
   username: process.env.MQTT_USER,
@@ -55,6 +63,15 @@ async function getCompletionFromOpenAI() {
   }
 }
 
+async function tootArt(msg) {
+  await masto.v1.statuses.create({
+    status: msg,
+    visibility: 'public',
+  })
+
+  console.log('Tooted!')
+}
+
 function getDisplay() {
   return new Rpi7In5V2()
 }
@@ -87,6 +104,7 @@ client.on('message', function (topic, payload) {
   if (topic === 'art') {
     console.log('New art!')
     msg = JSON.parse(payload.toString())
+    tootArt(msg)
     refreshDisplay()
   } else if (topic === process.env.TOUCH_TOPIC) {
     console.log('handleTouch')
