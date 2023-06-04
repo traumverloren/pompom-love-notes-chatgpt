@@ -58,7 +58,7 @@ async function getCompletionFromOpenAI() {
 
 async function tootArt(msg) {
   // TIL mastodon cannot handle messages over 500 char
-  if (msg.length > 500) return;
+  if (msg.length > 500) return
 
   // setup mastodon
   const masto = await login({
