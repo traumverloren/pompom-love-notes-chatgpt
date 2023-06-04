@@ -64,6 +64,9 @@ async function getCompletionFromOpenAI() {
 }
 
 async function tootArt(msg) {
+  // TIL mastodon cannot handle messages over 500 char
+  if (msg.length > 500) return;
+
   // setup mastodon
   const masto = await login({
     url: process.env.URL,
@@ -85,6 +88,8 @@ function getDisplay() {
 async function refreshDisplay() {
   const displayDevice = getDisplay()
   displayDevice.connect()
+
+  if (msg === '') return
 
   const browserPage = await getPageRpi(
     displayDevice.width,
@@ -121,6 +126,8 @@ client.on('message', function (topic, payload) {
 // reassurance that the connection worked
 client.on('connect', () => {
   console.log('Connected!')
+  refreshDisplay()
+  console.log('Display ready')
 })
 
 // prints an error message
