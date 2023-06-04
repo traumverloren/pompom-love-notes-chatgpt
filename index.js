@@ -9,13 +9,6 @@ import { login } from 'masto'
 import dotenv from 'dotenv'
 dotenv.config()
 
-// setup mastodon
-const masto = async () =>
-  await login({
-    url: process.env.URL,
-    accessToken: process.env.TOKEN,
-  })
-
 const client = mqtt.connect(process.env.MQTT_HOST, {
   username: process.env.MQTT_USER,
   password: process.env.MQTT_PASSWORD,
